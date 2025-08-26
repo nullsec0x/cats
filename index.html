@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cat Gooberts</title>
+<link rel="icon" href="icon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url('bg.png') repeat;
+  background-size: cover;
+  text-align: center;
+  overflow-x: hidden;
+}
+.cat-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 1000px;
+}
+img#cat {
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  max-height: 60vh;
+  min-height: 40vh;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition: all 0.4s ease;
+}
+button {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 28px;
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  background-color: #ff6b6b;
+  color: white;
+  font-family: sans-serif;
+  transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+  background-color: #ff4c4c;
+  transform: translateX(-50%) scale(1.05);
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 8px 0;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 15px;
+  text-align: center;
+  background: transparent;
+  pointer-events: none;
+}
+footer a {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+  pointer-events: auto;
+}
+@media (max-width: 768px) {
+  img#cat {
+    max-height: 50vh;
+    min-height: 30vh;
+    border-radius: 15px;
+  }
+  button {
+    font-size: 18px;
+    padding: 10px 22px;
+    bottom: 45px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="cat-container">
+  <img id="cat" src="">
+</div>
+<button onclick="newCat()">See Another Goobert</button>
+<footer>Made with <span style="color:red;">&hearts;</span> by <a href="https://github.com/nullsec0x" target="_blank">Nullsec0x</a></footer>
+<script>
+const apiKey = 'live_6oysmHyOFly64Dny8DnYG32pu4jlRHmY9QT6DCHKxXYtlFkMpcz1da9rIrh6tFfB';
+async function newCat() {
+  try {
+    const res = await fetch('https://api.thecatapi.com/v1/images/search', {
+      headers: { 'x-api-key': apiKey }
+    });
+    const data = await res.json();
+    const catImg = document.getElementById('cat');
+    catImg.style.opacity = 0;
+    setTimeout(() => {
+      catImg.src = data[0].url;
+      catImg.style.opacity = 1;
+    }, 200);
+  } catch(err) {
+    console.error('Failed to fetch cat :(', err);
+  }
+}
+window.onload = newCat;
+</script>
+</body>
+</html>
